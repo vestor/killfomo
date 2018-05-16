@@ -5,9 +5,9 @@
         .module('killfomoApp')
         .controller('TaskKillFomoEntitiesController', TaskKillFomoEntitiesController);
 
-    TaskKillFomoEntitiesController.$inject = ['$state', 'Task', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    TaskKillFomoEntitiesController.$inject = ['$state', 'DataUtils', 'Task', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function TaskKillFomoEntitiesController($state, Task, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function TaskKillFomoEntitiesController($state, DataUtils, Task, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -16,6 +16,8 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

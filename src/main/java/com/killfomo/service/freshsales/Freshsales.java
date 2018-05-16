@@ -1,4 +1,4 @@
-package com.killfomo.service.freshdesk;
+package com.killfomo.service.freshsales;
 
 import com.killfomo.domain.AuthResource;
 import com.killfomo.domain.Task;
@@ -28,11 +28,11 @@ import static com.killfomo.service.util.HttpUtils.getHttpHeadersForBasic;
  * Created by manishs on 16/05/18.
  */
 @Component
-public class Freshdesk {
+public class Freshsales {
 
-    private final Logger log = LoggerFactory.getLogger(Freshdesk.class);
+    private final Logger log = LoggerFactory.getLogger(Freshsales.class);
 
-    private static final String BASE_URL = "https://{domain}.freshdesk.com";
+    private static final String BASE_URL = "https://{domain}.freshsales.io";
 
     @Autowired
     AuthResourceRepository authResourceService;
@@ -53,7 +53,7 @@ public class Freshdesk {
 
     public void fetchTaskForUser(Long userId) throws IOException {
 
-        AuthResource authResource = authResourceService.findByUserIdAndType(userId, TaskType.FRESHDESK);
+        AuthResource authResource = authResourceService.findByUserIdAndType(userId, TaskType.FRESHSALES);
         if(authResource != null) {
             Map rawTokenInfo = killfomoJsonMapper.readValue(authResource.getToken(), Map.class);
             fetchTasksFromFreshservice(userId, rawTokenInfo);
@@ -76,7 +76,7 @@ public class Freshdesk {
         String apiKey = (String) rawTokenInfo.get("key");
 
 
-        String url = BASE_URL.replace("{domain}", domain)  + "/api/v2/tickets.json?filter=new_and_my_open";
+        String url = BASE_URL.replace("{domain}", domain)  + "/api/tasks?filter=open";
 
         HttpHeaders headers = getHttpHeadersForBasic(apiKey);
         HttpEntity httpEntity = new HttpEntity(headers);
@@ -86,26 +86,24 @@ public class Freshdesk {
 
         if(rawResponse.getStatusCode() != HttpStatus.OK) {
             log.error("Got this response {} {}", rawResponse.getHeaders(), rawResponse.getBody());
-            throw new RuntimeException("Unable to get Data from Freshservice");
+            throw new RuntimeException("Unable to get Data from Freshsales");
         }
 
         List<Task> tasksToReturn = new ArrayList<>();
 
         //Dirty parsing the result
-        List mytasks = killfomoJsonMapper.readValue(rawResponse.getBody(), List.class);
-        for(Object mytask : mytasks) {
+        Map mytasks = killfomoJsonMapper.readValue(rawResponse.getBody(), Map.class);
+        for(Object mytask : (List)mytasks.get("tasks")) {
 
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
-            if(Integer.parseInt((String)myTaskMap.get("status")) != 5) {
                 Task task = new Task();
                 task.setUserId(userId);
                 task.setCustomJson(killfomoJsonMapper.writeValueAsString(mytask));
                 task.setExternalCreatedAt(Instant.parse(myTaskMap.get("created_at").toString()));
                 task.setDueBy(Instant.parse(myTaskMap.get("due_by").toString()));
-                task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/a/tickets/" + myTaskMap.get("ticket_id"));
+                task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/calendar/tasks");
                 task.setType(TaskType.FRESHSERVICE);
-                task.setSubject((String) myTaskMap.get("subject"));
-            }
+                task.setSubject((String) myTaskMap.get("title"));
         }
         taskRepository.save(tasksToReturn);
     }

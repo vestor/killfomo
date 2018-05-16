@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class Freshservice {
 
     public void fetchTaskForUser(Long userId) throws IOException {
 
-        AuthResource authResource = authResourceService.findByUserIdAndTaskType(userId, TaskType.FRESHSERVICE);
+        AuthResource authResource = authResourceService.findByUserIdAndType(userId, TaskType.FRESHSERVICE);
         if(authResource != null) {
             Map rawTokenInfo = killfomoJsonMapper.readValue(authResource.getToken(), Map.class);
             fetchTasksFromFreshservice(userId, rawTokenInfo);
@@ -64,7 +65,7 @@ public class Freshservice {
     @Scheduled(fixedDelay = 5000)
     public void fetchTasksForEveryone() throws IOException {
 
-        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now());
+        List<User> users = userRepository.findAll();
         for(User user : users) {
             fetchTaskForUser(user.getId());
         }
@@ -92,18 +93,24 @@ public class Freshservice {
 
         //Dirty parsing the result
         List mytasks = killfomoJsonMapper.readValue(rawResponse.getBody(), List.class);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
         for(Object mytask : mytasks) {
 
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
-            if(myTaskMap.get("closed_at") != null) {
+            if(myTaskMap.get("closed_at") == null) {
                 Task task = new Task();
+
                 task.setUserId(userId);
-                task.setCustomJson(killfomoJsonMapper.writeValueAsString(mytask));
-                task.setExternalCreatedAt(Instant.parse(myTaskMap.get("created_at").toString()));
-                task.setDueBy(Instant.parse(myTaskMap.get("due_by").toString()));
+//                task.setCustomJson(killfomoJsonMapper.writeValueAsString(mytask));
+                task.setExternalCreatedAt(Instant.from(formatter.parse(myTaskMap.get("created_at").toString())));
+                if(myTaskMap.get("due_by") != null) {
+                    task.setDueBy(Instant.from(formatter.parse(myTaskMap.get("due_by").toString())));
+                }
                 task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/helpdesk/tickets/" + myTaskMap.get("ticket_id") + "#tasks");
                 task.setType(TaskType.FRESHSERVICE);
                 task.setSubject((String) myTaskMap.get("title"));
+                tasksToReturn.add(task);
             }
         }
         taskRepository.save(tasksToReturn);

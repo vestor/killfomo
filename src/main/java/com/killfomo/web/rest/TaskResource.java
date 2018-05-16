@@ -83,16 +83,16 @@ public class TaskResource {
     }
 
     /**
-     * GET  /tasks : get all the tasks for the user.
+     * GET  /tasks : get all the tasks.
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of tasks in body
      */
-    @GetMapping("/tasks/{userId}")
+    @GetMapping("/tasks")
     @Timed
-    public ResponseEntity<List<TaskDTO>> getAllTasksForUser(@PathVariable Long userId, Pageable pageable) {
+    public ResponseEntity<List<TaskDTO>> getAllTasks(Pageable pageable) {
         log.debug("REST request to get a page of Tasks");
-        Page<TaskDTO> page = taskService.findByUserId(userId, pageable);
+        Page<TaskDTO> page = taskService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tasks");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

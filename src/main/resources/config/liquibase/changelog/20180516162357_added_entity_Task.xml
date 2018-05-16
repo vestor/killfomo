@@ -26,11 +26,11 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="subject" type="varchar(255)">
+            <column name="subject" type="clob">
                 <constraints nullable="false" />
             </column>
 
-            <column name="external_link" type="varchar(255)">
+            <column name="external_link" type="clob">
                 <constraints nullable="true" />
             </column>
 
@@ -43,10 +43,10 @@
             </column>
 
             <column name="external_created_at" type="timestamp">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
-            <column name="custom_json" type="varchar(255)">
+            <column name="custom_json" type="clob">
                 <constraints nullable="true" />
             </column>
 

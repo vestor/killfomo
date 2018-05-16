@@ -5,15 +5,17 @@
         .module('killfomoApp')
         .controller('TaskKillFomoEntitiesDialogController', TaskKillFomoEntitiesDialogController);
 
-    TaskKillFomoEntitiesDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Task'];
+    TaskKillFomoEntitiesDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Task'];
 
-    function TaskKillFomoEntitiesDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Task) {
+    function TaskKillFomoEntitiesDialogController ($timeout, $scope, $stateParams, $uibModalInstance, DataUtils, entity, Task) {
         var vm = this;
 
         vm.task = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
+        vm.byteSize = DataUtils.byteSize;
+        vm.openFile = DataUtils.openFile;
         vm.save = save;
 
         $timeout(function (){

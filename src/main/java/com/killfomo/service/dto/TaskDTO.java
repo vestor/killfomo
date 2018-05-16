@@ -3,6 +3,7 @@ package com.killfomo.service.dto;
 
 import com.killfomo.domain.enumeration.TaskType;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
@@ -19,8 +20,10 @@ public class TaskDTO implements Serializable {
     private Long userId;
 
     @NotNull
+    @Lob
     private String subject;
 
+    @Lob
     private String externalLink;
 
     @NotNull
@@ -28,8 +31,10 @@ public class TaskDTO implements Serializable {
 
     private Instant dueBy;
 
+    @NotNull
     private Instant externalCreatedAt;
 
+    @Lob
     private String customJson;
 
     public Long getId() {

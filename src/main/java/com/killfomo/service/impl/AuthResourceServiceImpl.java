@@ -90,7 +90,7 @@ public class AuthResourceServiceImpl implements AuthResourceService {
     @Transactional(readOnly = true)
     public AuthResourceDTO findByUserIdAndType(Long userId, TaskType taskType) {
         log.debug("Request to get AuthResource for this userId {}", userId);
-        AuthResource authResource = authResourceRepository.findByUserIdAndTaskType(userId, taskType);
+        AuthResource authResource = authResourceRepository.findByUserIdAndType(userId, taskType);
         return authResourceMapper.toDto(authResource);
     }
 }

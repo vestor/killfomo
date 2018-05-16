@@ -11,7 +11,8 @@
         },
         {
             "fieldName": "token",
-            "fieldType": "String"
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "type",

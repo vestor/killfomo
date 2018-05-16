@@ -1,16 +1,14 @@
 package com.killfomo.domain;
 
+import com.killfomo.domain.enumeration.TaskType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
-
-import com.killfomo.domain.enumeration.TaskType;
 
 /**
  * A Task.
@@ -31,9 +29,11 @@ public class Task implements Serializable {
     private Long userId;
 
     @NotNull
+    @Lob
     @Column(name = "subject", nullable = false)
     private String subject;
 
+    @Lob
     @Column(name = "external_link")
     private String externalLink;
 
@@ -45,9 +45,11 @@ public class Task implements Serializable {
     @Column(name = "due_by")
     private Instant dueBy;
 
-    @Column(name = "external_created_at")
+    @NotNull
+    @Column(name = "external_created_at", nullable = false)
     private Instant externalCreatedAt;
 
+    @Lob
     @Column(name = "custom_json")
     private String customJson;
 

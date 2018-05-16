@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthResourceRepository extends JpaRepository<AuthResource, Long> {
 
-    AuthResource findByUserIdAndTaskType(Long userId, TaskType taskType);
+    AuthResource findByUserIdAndType(Long userId, TaskType taskType);
 
 }

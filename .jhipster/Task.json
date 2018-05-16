@@ -11,14 +11,16 @@
         },
         {
             "fieldName": "subject",
-            "fieldType": "String",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
             "fieldName": "externalLink",
-            "fieldType": "String"
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "type",
@@ -34,11 +36,15 @@
         },
         {
             "fieldName": "externalCreatedAt",
-            "fieldType": "Instant"
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "customJson",
-            "fieldType": "String"
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         }
     ],
     "changelogDate": "20180516162357",

@@ -1,7 +1,9 @@
 package com.killfomo;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.killfomo.config.ApplicationProperties;
 import com.killfomo.config.DefaultProfileUtil;
+import com.killfomo.service.mapper.KillfomoJsonMapper;
 import io.github.jhipster.config.JHipsterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +94,15 @@ public class KillfomoApp {
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public KillfomoJsonMapper getKillfomoJsonMapper() {
+        KillfomoJsonMapper objectMapper = new KillfomoJsonMapper();
+
+        JavaTimeModule module = new JavaTimeModule();
+        objectMapper.registerModule(module);
+        return objectMapper;
     }
 
 }

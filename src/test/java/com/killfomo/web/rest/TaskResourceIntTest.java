@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -213,6 +214,25 @@ public class TaskResourceIntTest {
         int databaseSizeBeforeTest = taskRepository.findAll().size();
         // set the field null
         task.setType(null);
+
+        // Create the Task, which fails.
+        TaskDTO taskDTO = taskMapper.toDto(task);
+
+        restTaskMockMvc.perform(post("/api/tasks")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(taskDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Task> taskList = taskRepository.findAll();
+        assertThat(taskList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkExternalCreatedAtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = taskRepository.findAll().size();
+        // set the field null
+        task.setExternalCreatedAt(null);
 
         // Create the Task, which fails.
         TaskDTO taskDTO = taskMapper.toDto(task);
