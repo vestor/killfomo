@@ -1,0 +1,48 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "userId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "subject",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "externalLink",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "TaskType",
+            "fieldValues": "DEFAULT,FRESHDESK,FRESHSALES,FRESHSERVICE,JIRA,CONFLUENCE,GTASK",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dueBy",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "externalCreatedAt",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "customJson",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180516162357",
+    "entityTableName": "task",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "killFomoEntities"
+}

@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span>Task</span> {{vm.task.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>User Id</span></dt>
+        <dd>
+            <span>{{vm.task.userId}}</span>
+        </dd>
+        <dt><span>Subject</span></dt>
+        <dd>
+            <span>{{vm.task.subject}}</span>
+        </dd>
+        <dt><span>External Link</span></dt>
+        <dd>
+            <span>{{vm.task.externalLink}}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+            <span>{{vm.task.type}}</span>
+        </dd>
+        <dt><span>Due By</span></dt>
+        <dd>
+            <span>{{vm.task.dueBy | date:'medium'}}</span>
+        </dd>
+        <dt><span>External Created At</span></dt>
+        <dd>
+            <span>{{vm.task.externalCreatedAt | date:'medium'}}</span>
+        </dd>
+        <dt><span>Custom Json</span></dt>
+        <dd>
+            <span>{{vm.task.customJson}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="task-kill-fomo-entities-detail.edit({id:vm.task.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>
