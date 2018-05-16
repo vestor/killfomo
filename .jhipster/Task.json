@@ -4,7 +4,10 @@
     "fields": [
         {
             "fieldName": "userId",
-            "fieldType": "Long"
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "subject",

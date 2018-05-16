@@ -1,11 +1,12 @@
 package com.killfomo.service.dto;
 
 
-import java.time.Instant;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
 import com.killfomo.domain.enumeration.TaskType;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
 
 /**
  * A DTO for the Task entity.
@@ -14,6 +15,7 @@ public class TaskDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private Long userId;
 
     @NotNull

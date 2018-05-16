@@ -82,8 +82,6 @@ public class TaskResource {
             .body(result);
     }
 
-
-
     /**
      * GET  /tasks : get all the tasks for the user.
      *
@@ -92,7 +90,7 @@ public class TaskResource {
      */
     @GetMapping("/tasks/{userId}")
     @Timed
-    public ResponseEntity<List<TaskDTO>> getAllTasks(@PathVariable Long userId, Pageable pageable) {
+    public ResponseEntity<List<TaskDTO>> getAllTasksForUser(@PathVariable Long userId, Pageable pageable) {
         log.debug("REST request to get a page of Tasks");
         Page<TaskDTO> page = taskService.findByUserId(userId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tasks");

@@ -171,6 +171,25 @@ public class TaskResourceIntTest {
 
     @Test
     @Transactional
+    public void checkUserIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = taskRepository.findAll().size();
+        // set the field null
+        task.setUserId(null);
+
+        // Create the Task, which fails.
+        TaskDTO taskDTO = taskMapper.toDto(task);
+
+        restTaskMockMvc.perform(post("/api/tasks")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(taskDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Task> taskList = taskRepository.findAll();
+        assertThat(taskList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkSubjectIsRequired() throws Exception {
         int databaseSizeBeforeTest = taskRepository.findAll().size();
         // set the field null

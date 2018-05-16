@@ -39,6 +39,7 @@ public class CacheConfiguration {
             cm.createCache(com.killfomo.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.killfomo.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.killfomo.domain.Task.class.getName(), jcacheConfiguration);
+            cm.createCache(com.killfomo.domain.AuthResource.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
