@@ -17,7 +17,7 @@
         {
             "fieldName": "type",
             "fieldType": "TaskType",
-            "fieldValues": "DEFAULT,FRESHDESK,FRESHSALES,FRESHSERVICE,JIRA,CONFLUENCE,GTASK",
+            "fieldValues": "DEFAULT,FRESHDESK,FRESHSALES,FRESHSERVICE,JIRA,CONFLUENCE,GTASK,TRELLO",
             "fieldValidateRules": [
                 "required"
             ]

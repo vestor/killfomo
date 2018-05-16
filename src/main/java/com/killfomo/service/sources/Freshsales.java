@@ -23,7 +23,7 @@ public class Freshsales extends AbstractFreshworksPuller{
     private static final String BASE_URL = "https://{domain}.freshsales.io";
 
     @Override
-    String getUrl(String domain) {
+    String getUrl(String domain, String apiKey) {
         return BASE_URL.replace("{domain}", domain)  + "/api/tasks?filter=open";
     }
 

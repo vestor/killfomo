@@ -48,11 +48,11 @@ public abstract class AbstractFreshworksPuller {
         AuthResource authResource = authResourceService.findByUserIdAndType(userId, getType());
         if(authResource != null) {
             Map rawTokenInfo = killfomoJsonMapper.readValue(authResource.getToken(), Map.class);
-            fetchTasksFromFreshservice(userId, rawTokenInfo);
+            fetchTasks(userId, rawTokenInfo);
         }
     }
 
-    abstract String getUrl(String domain);
+    abstract String getUrl(String domain, String apiKey);
     abstract TaskType getType();
     abstract boolean checkFilter(Map mytask);
     abstract void map(String domain, DateTimeFormatter formatter, Map<String, Object> myTaskMap, Task task);
@@ -71,13 +71,13 @@ public abstract class AbstractFreshworksPuller {
 
     }
 
-    private void fetchTasksFromFreshservice(Long userId, Map rawTokenInfo) throws IOException {
+    protected void fetchTasks(Long userId, Map rawTokenInfo) throws IOException {
         String domain = (String) rawTokenInfo.get("domain");
         String apiKey = (String) rawTokenInfo.get("key");
         HttpHeaders headers = getHttpHeaders(apiKey);
 
 
-        String url = getUrl(domain);
+        String url = getUrl(domain, apiKey);
         HttpEntity httpEntity = new HttpEntity(headers);
 
 

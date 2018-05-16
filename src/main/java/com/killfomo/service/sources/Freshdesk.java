@@ -23,7 +23,7 @@ public class Freshdesk extends AbstractFreshworksPuller{
     private static final String BASE_URL = "https://{domain}.freshdesk.com";
 
     @Override
-    String getUrl(String domain) {
+    String getUrl(String domain, String apiKey) {
         return BASE_URL.replace("{domain}", domain)  + "/api/v2/tickets.json?filter=new_and_my_open";
     }
 
