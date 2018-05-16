@@ -1,4 +1,4 @@
-package com.killfomo.service.freshdesk;
+package com.killfomo.service.sources;
 
 import com.killfomo.domain.AuthResource;
 import com.killfomo.domain.Task;
@@ -13,26 +13,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.killfomo.service.util.HttpUtils.getHttpHeadersForBasic;
-
 /**
- * Created by manishs on 16/05/18.
+ * Created by manishs on 17/05/18.
  */
-@Component
-public class Freshdesk {
+public abstract class AbstractFreshworksPuller {
 
-    private final Logger log = LoggerFactory.getLogger(Freshdesk.class);
-
-    private static final String BASE_URL = "https://{domain}.freshdesk.com";
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     AuthResourceRepository authResourceService;
@@ -49,22 +43,28 @@ public class Freshdesk {
     @Autowired
     UserRepository userRepository;
 
+    private void fetchTaskForUser(Long userId) throws IOException {
 
-
-    public void fetchTaskForUser(Long userId) throws IOException {
-
-        AuthResource authResource = authResourceService.findByUserIdAndType(userId, TaskType.FRESHDESK);
+        AuthResource authResource = authResourceService.findByUserIdAndType(userId, getType());
         if(authResource != null) {
             Map rawTokenInfo = killfomoJsonMapper.readValue(authResource.getToken(), Map.class);
             fetchTasksFromFreshservice(userId, rawTokenInfo);
         }
     }
 
+    abstract String getUrl(String domain);
+    abstract TaskType getType();
+    abstract boolean checkFilter(Map mytask);
+    abstract void map(String domain, DateTimeFormatter formatter, Map<String, Object> myTaskMap, Task task);
+    public DateTimeFormatter getDateTimeFormatter() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+    }
+
 
     @Scheduled(fixedDelay = 5000)
     public void fetchTasksForEveryone() throws IOException {
 
-        List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now());
+        List<User> users = userRepository.findAll();
         for(User user : users) {
             fetchTaskForUser(user.getId());
         }
@@ -74,41 +74,45 @@ public class Freshdesk {
     private void fetchTasksFromFreshservice(Long userId, Map rawTokenInfo) throws IOException {
         String domain = (String) rawTokenInfo.get("domain");
         String apiKey = (String) rawTokenInfo.get("key");
+        HttpHeaders headers = getHttpHeaders(apiKey);
 
 
-        String url = BASE_URL.replace("{domain}", domain)  + "/api/v2/tickets.json?filter=new_and_my_open";
-
-        HttpHeaders headers = getHttpHeadersForBasic(apiKey);
+        String url = getUrl(domain);
         HttpEntity httpEntity = new HttpEntity(headers);
+
+
         ResponseEntity<String> rawResponse = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
-
-
-
         if(rawResponse.getStatusCode() != HttpStatus.OK) {
             log.error("Got this response {} {}", rawResponse.getHeaders(), rawResponse.getBody());
-            throw new RuntimeException("Unable to get Data from Freshservice");
+            throw new RuntimeException("Unable to get Data from " + getClass());
         }
 
         List<Task> tasksToReturn = new ArrayList<>();
 
         //Dirty parsing the result
-        List mytasks = killfomoJsonMapper.readValue(rawResponse.getBody(), List.class);
+        List mytasks = parse(rawResponse);
+
+        DateTimeFormatter formatter = getDateTimeFormatter();
         for(Object mytask : mytasks) {
 
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
-            if(Integer.parseInt((String)myTaskMap.get("status")) != 5) {
+            if(checkFilter(myTaskMap)) {
                 Task task = new Task();
+                task.setId(userId + "-" + getType() + "-" + myTaskMap.get("id"));
                 task.setUserId(userId);
                 task.setCustomJson(killfomoJsonMapper.writeValueAsString(mytask));
-                task.setExternalCreatedAt(Instant.parse(myTaskMap.get("created_at").toString()));
-                task.setDueBy(Instant.parse(myTaskMap.get("due_by").toString()));
-                task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/a/tickets/" + myTaskMap.get("ticket_id"));
-                task.setType(TaskType.FRESHSERVICE);
-                task.setSubject((String) myTaskMap.get("subject"));
+                task.setType(getType());
+
+                map(domain, formatter, myTaskMap, task);
+                tasksToReturn.add(task);
             }
         }
         taskRepository.save(tasksToReturn);
     }
+
+    protected abstract List parse(ResponseEntity<String> rawResponse) throws IOException;
+
+    protected abstract HttpHeaders getHttpHeaders(String apiKey);
 
 
 }

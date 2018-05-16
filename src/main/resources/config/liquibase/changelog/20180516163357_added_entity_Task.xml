@@ -19,9 +19,11 @@
     -->
     <changeSet id="20180516162357-1" author="jhipster">
         <createTable tableName="task">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+
+            <column name="id" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+
             <column name="user_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -52,9 +54,9 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="task" columnName="due_by" columnDataType="datetime"/>
-        <dropDefaultValue tableName="task" columnName="external_created_at" columnDataType="datetime"/>
-        
+        <!--<dropDefaultValue tableName="task" columnName="due_by" columnDataType="datetime"/>-->
+        <!--<dropDefaultValue tableName="task" columnName="external_created_at" columnDataType="datetime"/>-->
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

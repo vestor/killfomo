@@ -1,14 +1,13 @@
 package com.killfomo.web.rest;
 
 import com.killfomo.KillfomoApp;
-
 import com.killfomo.domain.Task;
+import com.killfomo.domain.enumeration.TaskType;
 import com.killfomo.repository.TaskRepository;
 import com.killfomo.service.TaskService;
 import com.killfomo.service.dto.TaskDTO;
 import com.killfomo.service.mapper.TaskMapper;
 import com.killfomo.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -34,8 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.killfomo.domain.enumeration.TaskType;
 /**
  * Test class for the TaskResource REST controller.
  *
@@ -156,7 +152,7 @@ public class TaskResourceIntTest {
         int databaseSizeBeforeCreate = taskRepository.findAll().size();
 
         // Create the Task with an existing ID
-        task.setId(1L);
+        task.setId("1");
         TaskDTO taskDTO = taskMapper.toDto(task);
 
         // An entity with an existing ID cannot be created, so this API call must fail
@@ -256,7 +252,7 @@ public class TaskResourceIntTest {
         restTaskMockMvc.perform(get("/api/tasks?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(task.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(task.getId())))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
             .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT.toString())))
             .andExpect(jsonPath("$.[*].externalLink").value(hasItem(DEFAULT_EXTERNAL_LINK.toString())))
@@ -276,7 +272,7 @@ public class TaskResourceIntTest {
         restTaskMockMvc.perform(get("/api/tasks/{id}", task.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(task.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(task.getId()))
             .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
             .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT.toString()))
             .andExpect(jsonPath("$.externalLink").value(DEFAULT_EXTERNAL_LINK.toString()))
@@ -374,11 +370,11 @@ public class TaskResourceIntTest {
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Task.class);
         Task task1 = new Task();
-        task1.setId(1L);
+        task1.setId("1");
         Task task2 = new Task();
         task2.setId(task1.getId());
         assertThat(task1).isEqualTo(task2);
-        task2.setId(2L);
+        task2.setId("2");
         assertThat(task1).isNotEqualTo(task2);
         task1.setId(null);
         assertThat(task1).isNotEqualTo(task2);
@@ -389,12 +385,12 @@ public class TaskResourceIntTest {
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(TaskDTO.class);
         TaskDTO taskDTO1 = new TaskDTO();
-        taskDTO1.setId(1L);
+        taskDTO1.setId("1");
         TaskDTO taskDTO2 = new TaskDTO();
         assertThat(taskDTO1).isNotEqualTo(taskDTO2);
         taskDTO2.setId(taskDTO1.getId());
         assertThat(taskDTO1).isEqualTo(taskDTO2);
-        taskDTO2.setId(2L);
+        taskDTO2.setId("2");
         assertThat(taskDTO1).isNotEqualTo(taskDTO2);
         taskDTO1.setId(null);
         assertThat(taskDTO1).isNotEqualTo(taskDTO2);
@@ -403,7 +399,7 @@ public class TaskResourceIntTest {
     @Test
     @Transactional
     public void testEntityFromId() {
-        assertThat(taskMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(taskMapper.fromId("42").getId()).isEqualTo("42");
         assertThat(taskMapper.fromId(null)).isNull();
     }
 }

@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     @Transactional(readOnly = true)
-    public TaskDTO findOne(Long id) {
+    public TaskDTO findOne(String id) {
         log.debug("Request to get Task : {}", id);
         Task task = taskRepository.findOne(id);
         return taskMapper.toDto(task);
@@ -79,7 +79,7 @@ public class TaskServiceImpl implements TaskService {
      * @param id the id of the entity
      */
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         log.debug("Request to delete Task : {}", id);
         taskRepository.delete(id);
     }

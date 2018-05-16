@@ -21,8 +21,7 @@ public class Task implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotNull
     @Column(name = "user_id", nullable = false)
@@ -54,11 +53,11 @@ public class Task implements Serializable {
     private String customJson;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -163,10 +162,7 @@ public class Task implements Serializable {
             return false;
         }
         Task task = (Task) o;
-        if (task.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), task.getId());
+        return !(task.getId() == null || getId() == null) && Objects.equals(getId(), task.getId());
     }
 
     @Override

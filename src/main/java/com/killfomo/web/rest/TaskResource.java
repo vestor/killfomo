@@ -105,7 +105,7 @@ public class TaskResource {
      */
     @GetMapping("/tasks/{id}")
     @Timed
-    public ResponseEntity<TaskDTO> getTask(@PathVariable Long id) {
+    public ResponseEntity<TaskDTO> getTask(@PathVariable String id) {
         log.debug("REST request to get Task : {}", id);
         TaskDTO taskDTO = taskService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(taskDTO));
@@ -119,7 +119,7 @@ public class TaskResource {
      */
     @DeleteMapping("/tasks/{id}")
     @Timed
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTask(@PathVariable String id) {
         log.debug("REST request to delete Task : {}", id);
         taskService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();

@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class TaskDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     @NotNull
     private Long userId;
@@ -37,11 +37,11 @@ public class TaskDTO implements Serializable {
     @Lob
     private String customJson;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

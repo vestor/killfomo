@@ -19,7 +19,7 @@ public class TaskMapper implements EntityMapper<TaskDTO, Task> {
     @Autowired
     KillfomoJsonMapper killfomoJsonMapper;
 
-    public Task fromId(Long id) {
+    public Task fromId(String id) {
         if (id == null) {
             return null;
         }
