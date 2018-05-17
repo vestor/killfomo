@@ -106,12 +106,14 @@ public class Jira extends AbstractFreshworksPuller{
         List mytasks = parse(rawResponse);
 
         DateTimeFormatter formatter = getDateTimeFormatter();
+        List<String> idsToRetain = new ArrayList<>();
         for(Object mytask : mytasks) {
 
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
+            String id = userId + "-" + getType() + "-" + myTaskMap.get("id");
             if(checkFilter(myTaskMap)) {
                 Task task = new Task();
-                String id = userId + "-" + getType() + "-" + myTaskMap.get("id");
+                idsToRetain.add(id);
                 task.setId(id);
                 task.setUserId(userId);
                 Task one = taskRepository.findOne(id);
@@ -126,6 +128,9 @@ public class Jira extends AbstractFreshworksPuller{
                 tasksToReturn.add(task);
             }
         }
+        List<String> taskList = taskRepository.findIdByTypeAndState(getType(), TaskState.WIP);
+        tasksToReturn.stream().filter(a -> taskList.contains(a.getId())).forEach(b -> b.setState(TaskState.WIP));
+        taskRepository.markAsDone(idsToRetain, getType());
         taskRepository.save(tasksToReturn);
     }
 

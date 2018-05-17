@@ -94,6 +94,7 @@ public abstract class AbstractFreshworksPuller {
         List mytasks = parse(rawResponse);
 
         DateTimeFormatter formatter = getDateTimeFormatter();
+        List<String> idsToRetain = new ArrayList<>();
         for(Object mytask : mytasks) {
 
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
@@ -101,6 +102,7 @@ public abstract class AbstractFreshworksPuller {
             if(checkFilter(myTaskMap)) {
                 Task task = new Task();
                 task.setId(id);
+                idsToRetain.add(id);
                 Task one = taskRepository.findOne(id);
                 if(one != null) {
                     task.setState(one.getState());
@@ -113,10 +115,11 @@ public abstract class AbstractFreshworksPuller {
 
                 map(domain, formatter, myTaskMap, task);
                 tasksToReturn.add(task);
-            } else {
-                taskRepository.delete(id);
             }
         }
+        List<String> taskList = taskRepository.findIdByTypeAndState(getType(), TaskState.WIP);
+        tasksToReturn.stream().filter(a -> taskList.contains(a.getId())).forEach(b -> b.setState(TaskState.WIP));
+        taskRepository.markAsDone(idsToRetain, getType());
         taskRepository.save(tasksToReturn);
     }
 

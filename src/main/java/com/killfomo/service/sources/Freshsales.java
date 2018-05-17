@@ -24,7 +24,7 @@ public class Freshsales extends AbstractFreshworksPuller{
 
     @Override
     String getUrl(String domain, String apiKey) {
-        return BASE_URL.replace("{domain}", domain)  + "/api/tasks?include=targetable";
+        return BASE_URL.replace("{domain}", domain)  + "/api/tasks?filter=open&include=targetable";
     }
 
     @Override
@@ -69,7 +69,6 @@ public class Freshsales extends AbstractFreshworksPuller{
                 }
             }
         }
-
         return origData;
 
     }

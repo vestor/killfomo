@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class Freshdesk extends AbstractFreshworksPuller{
 
     @Override
     boolean checkFilter(Map mytask) {
-        return (Integer)mytask.get("status") != 5;
+        return Arrays.asList(2,3).contains((Integer)mytask.get("status"));
     }
 
     @Override
