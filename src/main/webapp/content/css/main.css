@@ -1,6 +1,6 @@
 body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    font-family: 'Roboto', sans-serif;
     color: #333;
 }
 
@@ -10,21 +10,23 @@ body {
     -webkit-backface-visibility: hidden;
 }
 .tile {
-    color: white;
+    color: #000000;
     padding: 15px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
 flipper {
     float: left;
-    width: 250px;
-    height: 250px;
-    margin-right: 15px;
+    width: 100%;
+    height: 100%;
+    /*margin-right: 15px;*/
+
     display: block;
     perspective: 1000px;
     -webkit-perspective: 1000px;
     -moz-perspective: 1000px;
     -ms-perspective: 1000px;
+
 }
 flipper span {
     color: white;
@@ -67,11 +69,13 @@ flipper > div.flipper .back {
 }
 flipper > div.flipper .front {
     z-index: 2;
-    background: #19489E;
+    background: #ffffff;
+
     /* front tile styles go here! */
 }
 flipper > div.flipper .back {
-    background: #9E1919;
+    background: #F9F7F7;
+
     /* back tile styles go here! */
 }
 flipper[horizontal] .front {
@@ -497,178 +501,256 @@ ui bootstrap tweaks
 
 /* Begin code for Kanban */
 
-.kanban-container-1 {width: 20%; float:left;clear: right;margin:10px; border-radius: 5px;
-    border-right-width: 9px !important;
-    border-right-color: black !important;
-    border-right-style: solid;
-    position: initial;
-    height: 600px;
-    padding-right: 40px;
-    position: absolute !important;
-    width: 370px !important;
+/*.kanban-container-1 {width: 20%; float:left;clear: right;margin:10px; border-radius: 5px;*/
+    /*border-right-width: 9px !important;*/
+    /*border-right-color: black !important;*/
+    /*border-right-style: solid;*/
+    /*position: initial;*/
+    /*height: 600px;*/
+    /*padding-right: 40px;*/
+    /*position: absolute !important;*/
+    /*width: 370px !important;*/
 
 
-}
-
-
-
-
-.kanban-container-1 ul {
-    width: 350px;
-}
-
-.kanban-container-1 ul li {
-
-    height: 250px !important;
-}
-
-
-.kanban-container-1 .list {
-
-    width: 315px;
-
-}
-
-.kanban-container-1 ul li .card {
-    width: 250px !important;
-    height: 195px !important;
-}
+/*}*/
 
 
 
-.kanban-container-2 {width: 20%; float:left;clear: right;margin:10px; border-radius: 5px;
-    border-right-width: 9px !important;
-    border-right-color: black !important;
-    border-right-style: solid;
-    position: initial;
-    height: 600px;
-    padding-right: 40px;
-    position: absolute !important;
-    left: 400px !important;
-    width: 600px !important;
 
-}
+/*.kanban-container-1 ul {*/
+    /*width: 350px;*/
+/*}*/
 
-.kanban-container-2 .list {
+/*.kanban-container-1 ul li {*/
 
-    width: 550px !important;
-
-}
-
-.kanban-container-2 ul {
-
-    width:525px !important;
-
-}
-
-.kanban-container-2 li {
-
-    width: 500px !important;
-    height: 350px !important;
-}
+    /*height: 250px !important;*/
+/*}*/
 
 
-.kanban-container-2 ul li .card {
-    width: 500px !important;
-    height: 350px !important;
-}
+/*.kanban-container-1 .list {*/
 
+    /*width: 315px;*/
+
+/*}*/
+
+/*.kanban-container-1 ul li .card {*/
+    /*width: 250px !important;*/
+    /*height: 195px !important;*/
+/*}*/
+
+
+
+/*.kanban-container-2 {width: 20%; float:left;clear: right;margin:10px; border-radius: 5px;*/
+    /*border-right-width: 9px !important;*/
+    /*border-right-color: black !important;*/
+    /*border-right-style: solid;*/
+    /*position: initial;*/
+    /*height: 600px;*/
+    /*padding-right: 40px;*/
+    /*position: absolute !important;*/
+    /*left: 400px !important;*/
+    /*width: 600px !important;*/
+
+/*}*/
+
+/*.kanban-container-2 .list {*/
+
+    /*width: 550px !important;*/
+
+/*}*/
+
+/*.kanban-container-2 ul {*/
+
+    /*width:525px !important;*/
+
+/*}*/
+
+/*.kanban-container-2 li {*/
+
+    /*width: 500px !important;*/
+    /*height: 350px !important;*/
+/*}*/
+
+
+/*.kanban-container-2 ul li .card {*/
+    /*width: 500px !important;*/
+    /*height: 350px !important;*/
+/*}*/
 
 
 
 /* Begin card styling */
 
-.card-subject {
-    position: absolute;
-    float: left;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-}
-
-.card-source
-{
-    width: 30px;
-    right: 5%;
-    position: absolute;
-    bottom: 2%;
-    width: 25px !important;
-}
-
-.card-flip{
-    position: absolute;
-    bottom: 5%;
-}
-
-.ui {
-    height: 100vh;
-    display: grid;
-    grid-template-rows: 40px 50px 1fr;
-    background-color: #0079bf;
-    color: #eee;
-}
 
 
-.lists {
-    display: flex;
-    overflow-x: auto;
-}
-.lists > * {
-    flex: 0 0 auto;
-    margin-left: 10px;
-}
-.lists::after {
-    content: '';
-    flex: 0 0 10px;
-}
 
-.list {
-    width: 300px;
-    height: calc(100% - 10px - 17px);
-}
-.list > * {
-    background-color: white;
-    color: #333;
-    padding: 0 10px;
-}
-.list header {
-    line-height: 36px;
-    font-size: 16px;
-    font-weight: bold;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-.list footer {
-    line-height: 36px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    color: #888;
-}
-.list ul {
-    list-style: none;
-    margin: 0;
-    max-height: calc(100% - 36px - 36px);
-    overflow-y: auto;
+/*.ui {*/
+    /*height: 100vh;*/
+    /*display: grid;*/
+    /*grid-template-rows: 40px 50px 1fr;*/
+    /*background-color: #0079bf;*/
+    /*color: #eee;*/
+/*}*/
 
-}
 
-.list ul li {
-    background-color: #fff;
-    /*  background-image: linear-gradient(-1deg, rgba(255,255,115,0.84) 0%, rgba(216,214,20,0.84) 72%); */
-    padding: 10px;
-    border-radius: 3px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-}
-.list ul li:not(:last-child) {
-    margin-bottom: 10px;
-}
-.list ul li img {
-    display: block;
-    width: calc(100% + 2 * 10px);
-    margin: -10px 0 10px -10px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
+/*.lists {*/
+    /*display: flex;*/
+    /*overflow-x: auto;*/
+/*}*/
+/*.lists > * {*/
+    /*flex: 0 0 auto;*/
+    /*margin-left: 10px;*/
+/*}*/
+/*.lists::after {*/
+    /*content: '';*/
+    /*flex: 0 0 10px;*/
+/*}*/
 
+/*.list {*/
+    /*width: 300px;*/
+    /*height: calc(100% - 10px - 17px);*/
+/*}*/
+/*.list > * {*/
+    /*background-color: white;*/
+    /*color: #333;*/
+    /*padding: 0 10px;*/
+/*}*/
+/*.list header {*/
+    /*line-height: 36px;*/
+    /*font-size: 16px;*/
+    /*font-weight: bold;*/
+    /*border-top-left-radius: 5px;*/
+    /*border-top-right-radius: 5px;*/
+/*}*/
+/*.list footer {*/
+    /*line-height: 36px;*/
+    /*border-bottom-left-radius: 5px;*/
+    /*border-bottom-right-radius: 5px;*/
+    /*color: #888;*/
+/*}*/
+/*.list ul {*/
+    /*list-style: none;*/
+    /*margin: 0;*/
+    /*max-height: calc(100% - 36px - 36px);*/
+    /*overflow-y: auto;*/
+
+/*}*/
+
+/*.list ul li {*/
+    /*background-color: #fff;*/
+    /*!*  background-image: linear-gradient(-1deg, rgba(255,255,115,0.84) 0%, rgba(216,214,20,0.84) 72%); *!*/
+    /*padding: 10px;*/
+    /*border-radius: 3px;*/
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);*/
+/*}*/
+/*.list ul li:not(:last-child) {*/
+    /*margin-bottom: 10px;*/
+/*}*/
+/*.list ul li img {*/
+    /*display: block;*/
+    /*width: calc(100% + 2 * 10px);*/
+    /*margin: -10px 0 10px -10px;*/
+    /*border-top-left-radius: 3px;*/
+    /*border-top-right-radius: 3px;*/
+/*}*/
+
+/*.table {*/
+    /*display: table;   !* Allow the centering to work *!*/
+    /*margin: 0 auto;*/
+/*}*/
+
+
+/*.card-subject {*/
+    /*position: absolute;*/
+    /*float: left;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+
+/*}*/
+
+/*.card-source*/
+/*{*/
+    /*width: 30px;*/
+    /*right: 5%;*/
+    /*position: absolute;*/
+    /*bottom: 2%;*/
+    /*width: 25px !important;*/
+/*}*/
+
+/*.card-flip{*/
+    /*position: absolute;*/
+    /*bottom: 5%;*/
+/*}*/
+
+
+/*.horizontal-list {*/
+    /*min-height: 42px;*/
+    /*padding-left: 0px;*/
+/*}*/
+/*.main-parts{*/
+    /*background-color: #fff;*/
+    /*border: 1px solid #ddd;*/
+    /*border-top-right-radius: 4px;*/
+    /*border-top-left-radius: 4px;*/
+    /*display: block;*/
+    /*padding: 10px 15px;*/
+    /*margin-bottom: -1px;*/
+/*}*/
 /* jhipster-needle-css-add-main JHipster will add new css style */
+
+ul.mainlist, ul.mainlist ul {
+    padding-left:20px;
+    list-style-type:none;
+    overflow:hidden;
+}
+ul.mainlist li, ul.horizontallist {
+    display:inline-block;
+    vertical-align:top;
+    align-content:center;
+    overflow-y:scroll;
+    height: 720px;
+    padding: 5px
+
+}
+ul.firstlist li {
+    padding:0;
+    width: 350px;
+    height: 200px;
+    display: block;
+    margin-bottom: 15px;
+    border: 2px solid #757575;
+    border-radius: 10px;
+}
+
+ul.secondlist ul {
+    padding:20px;
+}
+
+ul.secondlist li {
+    width: 550px;
+    height: 450px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: 2px solid #888888;
+    border-radius: 8px;
+    display: block;
+    padding: 10px 15px;
+}
+
+.center-text {
+    text-align:center;
+    padding-top:35px;
+    position:relative;
+    padding-right:5px;
+}
+
+#DONE{
+    top: 0;
+    width:100px;
+    right:0;
+    bottom: 0;
+    background-image: url("https://i.ebayimg.com/images/g/aMcAAOxy0QtR8bJQ/s-l1600.jpg");
+    background-repeat: repeat-y;
+    position:absolute;
+}

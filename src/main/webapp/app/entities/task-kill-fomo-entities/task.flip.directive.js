@@ -8,6 +8,10 @@
         .module('killfomoApp')
         .filter('millSecondsToTimeString', function() {
             return function(millseconds) {
+
+                if(millseconds <= 0) {
+                    return ".";
+                }
                 var oneSecond = 1000;
                 var oneMinute = oneSecond * 60;
                 var oneHour = oneMinute * 60;
@@ -43,13 +47,18 @@
         })
         .filter('dueFilter', function() {
             return function (item) {
-                var d = new Date();
-                return new Date(item).getMilliseconds() - d.getMilliseconds();
+                if(item) {
+                    var d = new Date();
+                    return new Date(item).getTime() - d.getTime();
+                } else {
+                    return -1;
+                }
             };
 
         })
         .filter('greaterThanZero', function() {
             return function (item) {
+                console.log(item);
                 return item > 0;
             };
 
@@ -170,8 +179,8 @@
 })();
 
 var fdMap = {
-    1 : 'Low',
-    2 : 'Medium',
-    3 : 'High',
-    4 : 'Urgent'
+    1 : 'LOW',
+    2 : 'MEDIUM',
+    3 : 'HIGH',
+    4 : 'URGENT'
 };

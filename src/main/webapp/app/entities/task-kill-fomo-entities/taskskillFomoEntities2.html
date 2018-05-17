@@ -1,150 +1,210 @@
-<div>
-    <h2>Tasks</h2>
+<ul>
+    <li style="display:inline-block; width:350px; padding-left: 75px"><h3>Backlog</h3></li>
+    <li style="display:inline-block;  width:550px; padding-left: 175px"><h3>In Progress</h3></li>
+</ul>
+<ul class="mainlist">
 
-    <hr class = 'divider'/>
-
-    <div class = 'kanban-container-1'>
-        <div class="list" style="background-color:white;">
-            <header>Backlog</header>
-            <ul id="TODO" ng-repeat="task in vm.parts.TODO  track by task.id " droppable>
-                <li id="{{task.id}}" draggable >
-                    <flipper flipped="flipped" horizontal class="card" style="width: 18rem;" >
-                        <front>
-                            <div class="card-body">
-                                <h5 class="card-title">{{task.type}}</h5>
-                                <h6 class="card-subtitle mb-2 card-id">{{task.subject}}</h6>
-                                <a href="#" class="card-link card-flip">Flip</a>
-                                <img class="card-link card-source" ng-src="{{task.type}}.png">
-                            </div>
-                        </front>
-                        <back>
-                            <back ng-switch="task.type">
-                                <div ng-switch-when="FRESHSALES" class="card-body">
-                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">$1000</h6>
-                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">{{task.customJson.target.name}}</h6>
-                                    <h6 ng-if="task.customJson.targetable.type == 'contact' || task.customJson.targetable.type == 'lead'">{{task.customJson.target.display_name}}</h6>
-                                    <h6>{{task.customJson.description | limitTo:40}}...</h6>
-                                </div>
-                                <div ng-switch-when="FRESHSERVICE" class="card-body">
-                                    <h6>{{task.customJson.description | limitTo:40}}...</h6>
-                                </div>
-                                <div ng-switch-when="TRELLO" class="card-body">
-                                    <h6>{{task.customJson.desc}}</h6>
-                                </div>
-                                <div ng-switch-when="JIRA" class="card-body">
-                                    <h6>{{task.customJson.fields.description  | limitTo:40}}...</h6>
-                                    <h6>{{task.customJson.fields.project.name}}</h6>
-                                    <h6>{{task.customJson.fields.priority.name}}</h6>
-                                </div>
-                                <div ng-switch-when="FRESHDESK" class="card-body">
-                                    <h4 ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">{{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
-                                    <h6>{{task.customJson.description_text | limitTo:40 }}...</h6>
-                                    <h6>{{task.customJson.priority | fdpriority}}</h6>
-                                </div>
-                            </back>
-                        </back>
-                    </flipper>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class = 'kanban-container-2'>
-        <div class="list" style="background-color:white;">
-            <header>Work in Progress</header>
-            <ul id="WIP" ng-repeat="task in vm.parts.WIP track by task.id " droppable >
-                <li id="{{task.id}}" draggable >
-                    <div class="card" style="width: 18rem;">
+    <li>
+        <ul class="firstlist" id="TODO" ng-repeat="task in vm.parts.TODO  track by task.id " droppable>
+            <li id="{{task.id}}" draggable>
+                <flipper flipped="flipped" horizontal class="card" >
+                    <front>
                         <div class="card-body">
-                            <h5 class="card-title">{{task.type}}</h5>
-                            <h6 class="card-subtitle mb-2 card-id">{{task.subject}}</h6>
-                            <a href="#" class="card-link card-flip">Flip</a>
-                            <img class="card-link card-source" ng-src="{{task.type}}.png">
-                            <div ng-switch="task.type">
-                                <div ng-switch-when="FRESHSALES" class="card-body">
-                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">$1000</h6>
-                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">{{task.customJson.target.name}}</h6>
-                                    <h6 ng-if="task.customJson.targetable.type == 'contact' || task.customJson.targetable.type == 'lead'">{{task.customJson.target.display_name}}</h6>
-                                    <h6>{{task.customJson.description | limitTo:240}}...</h6>
+                            <img class="card-link card-source" style="height: 20px" ng-src="{{task.type}}.png">
+                            <!--<h6 class="card-title" style="vertical-align:center; float:right;">{{task.type}}</h6>-->
+                            <h5 style="/* padding-left:30px; */font-size: 20px;" class="center-text mb-2 card-id">{{task.subject | limitTo:50}}</h5>
+                            <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
+                            <div style="padding-right:20px; padding-bottom:20px; position:absolute; bottom:0; right:0">
+                                <a ng-href="{{task.externalLink}}" target="_blank">
+                                    <span style="color:black" class="glyphicon glyphicon-new-window">
+                                    </span>
+                                </a>
+                            </div>
+                            <div style="position:absolute; padding-right:20px; padding-top:20px; font-size: 10px; top:0; right:0" ng-if="task.dueBy | dueFilter | millSecondsToTimeString">
+                                {{task.customJson.dueBy | dueFilter | millSecondsToTimeString}}</div>
+                        </div>
+                    </front>
+                    <back>
+                        <back ng-switch="task.type">
+                            <div ng-switch-when="FRESHSALES" class="card-body">
+                                <div style="text-align: left; position:absolute ;">
+                                    <h5 ng-if="task.customJson.targetable.type == 'deal'">
+                                        {{task.customJson.target.name}} $1000</h5>
+                                    <h5 ng-if="task.customJson.targetable.type == 'contact' || task.customJson.targetable.type == 'lead'">
+                                        {{task.customJson.target.display_name}}</h5>
                                 </div>
-                                <div ng-switch-when="FRESHSERVICE" class="card-body">
-                                    <h6>{{task.customJson.description | limitTo:240}}...</h6>
+                                <h5 class="center-text" style="padding-top:60px">{{task.customJson.description | limitTo:250}}...</h5>
+                                <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
+                                <div style="padding-right:20px; padding-bottom:20px; position:absolute; bottom:0; right:0">
+                                    <a ng-href="{{task.externalLink}}" target="_blank">
+                                    <span style="color:black" class="glyphicon glyphicon-new-window">
+                                    </span>
+                                    </a>
                                 </div>
-                                <div ng-switch-when="TRELLO" class="card-body">
-                                    <h6>{{task.customJson.desc}}</h6>
+                            </div>
+                            <div ng-switch-when="FRESHSERVICE" class="card-body">
+                                <h5 class="center-text" style="padding-top:60px">{{task.customJson.description | limitTo:150}}...</h5>
+                                <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
+                                <div style="padding-right:20px; padding-bottom:20px; position:absolute; bottom:0; right:0">
+                                    <a ng-href="{{task.externalLink}}" target="_blank">
+                                    <span style="color:black" class="glyphicon glyphicon-new-window">
+                                    </span>
+                                    </a>
                                 </div>
-                                <div ng-switch-when="JIRA" class="card-body">
-                                    <h6>{{task.customJson.fields.description  | limitTo:240}}...</h6>
-                                    <h6>{{task.customJson.fields.project.name}}</h6>
-                                    <h6>{{task.customJson.fields.priority.name}}</h6>
+                            </div>
+                            <div ng-switch-when="TRELLO" class="card-body">
+                                <h5 class="center-text">{{task.customJson.desc}}</h5>
+                                <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
+                                <div style="padding-right:20px; padding-bottom:20px; position:absolute; bottom:0; right:0">
+                                    <a ng-href="{{task.externalLink}}" target="_blank">
+                                    <span style="color:black" class="glyphicon glyphicon-new-window">
+                                    </span>
+                                    </a>
                                 </div>
-                                <div ng-switch-when="FRESHDESK" class="card-body">
-                                    <h4 ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">{{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
-                                    <h6>{{task.customJson.description_text | limitTo:240 }}...</h6>
-                                    <h6>{{task.customJson.priority | fdpriority}}</h6>
+                            </div>
+                            <div ng-switch-when="JIRA" class="card-body">
+                                <h5 style="top:0;left:0; font-weight:bold; position:absolute; padding-left:20px; padding-top:15px">{{task.customJson.fields.priority.name}}</h5>
+                                <h5 style="top:0;right:0; position:absolute; padding-right:20px; padding-top:15px">{{task.customJson.fields.project.name}}</h5>
+                                <h5 class="center-text" >{{task.customJson.fields.description | limitTo:250}}...</h5>
+                                <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
+                                <div style="padding-right:20px; padding-bottom:20px; position:absolute; bottom:0; right:0">
+                                    <a ng-href="{{task.externalLink}}" target="_blank">
+                                    <span style="color:black" class="glyphicon glyphicon-new-window">
+                                    </span>
+                                    </a>
                                 </div>
+                            </div>
+                            <div ng-switch-when="FRESHDESK" class="card-body">
+                                <h5 style="top:0;left:0; position:absolute; font-weight:bold; padding-left:20px; padding-top:15px">{{task.customJson.priority | fdpriority}}</h5>
+                                <h4 style="top:0;left:0; position:absolute; padding-left:20px; padding-top:40px;" ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">
+                                    {{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
+                                <h5 class="center-text" style="padding-top:60px">{{task.customJson.description_text | limitTo:150 }}...</h5>
+
+                                <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
+                                <div style="padding-right:20px; padding-bottom:20px; position:absolute; bottom:0; right:0">
+                                    <a ng-href="{{task.externalLink}}" target="_blank">
+                                    <span style="color:black" class="glyphicon glyphicon-new-window">
+                                    </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </back>
+                    </back>
+                </flipper>
+            </li>
+        </ul>
+    </li>
+    <li style="width: 5px; background: black; margin-left: 30px"></li>
+    <li>
+        <ul class="secondlist" id="WIP" ng-repeat="task in vm.parts.WIP track by task.id " droppable>
+            <li id="{{task.id}}" draggable>
+
+                    <div class="card-body">
+                        <img class="card-link card-source" style="height: 45px; padding-top:10px" ng-src="{{task.type}}.png">
+                        <h6 class="center-text" style="font-size: 35px;">{{task.subject | limitTo:50}}</h6>
+
+                        <div ng-switch="task.type">
+                            <div ng-switch-when="FRESHSALES" class="card-body">
+                                <div ng-if="task.customJson.targetable.type == 'deal'" style="top:0;right:0; padding-right:20px; padding-top:15px; font-size: 20px">$1000</div>
+                                <div ng-if="task.customJson.targetable.type == 'deal'" style="padding-top:20px;font-size:20px;">
+                                    <strong>Deal: </strong>{{task.customJson.target.name}} </div>
+                                <div style="padding-top:20px;font-size:20px;" ng-if="task.customJson.targetable.type == 'contact' || task.customJson.targetable.type == 'lead'">
+                                    <strong>Contact: </strong>{{task.customJson.target.display_name}}</div>
+                                <h6 style="padding-top:15px;text-align:justify; font-size:25px">{{task.customJson.description | limitTo:400}}...</h6>
+                            </div>
+                            <div ng-switch-when="FRESHSERVICE" class="card-body">
+                                <h6 style="padding-top:40px;text-align:center; font-size:25px; position: relative">{{task.customJson.description | limitTo:240}}...</h6>
+                            </div>
+                            <div ng-switch-when="TRELLO" class="card-body">
+                                <h6>{{task.customJson.desc}}</h6>
+                            </div>
+                            <div ng-switch-when="JIRA" class="card-body">
+
+                                <div style="padding-top:20px;font-size:20px;">
+                                    <strong>Project: </strong>{{task.customJson.fields.project.name}}</div>
+                                <div style="padding-top:20px;font-size:20px;"><strong>{{task.customJson.fields.priority.name | uppercase}} </strong></div>
+                                <h6 style="padding-top:20px;font-size: 15px">{{task.customJson.fields.description | limitTo:800}}...</h6>
+                            </div>
+                            <div ng-switch-when="FRESHDESK" class="card-body">
+                                <div style="padding-top:20px;font-size:20px;"><strong>{{task.customJson.priority | fdpriority}}<strong></div>
+                                <h4 style="top:0;right:0; padding-right:20px; padding-top:10px; font-size: 20px"ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">
+                                    {{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
+                                <h6 style="padding-top:20px;font-size: 15px">{{task.customJson.description_text | limitTo:800 }}...</h6>
+
                             </div>
                         </div>
                     </div>
-                </li>
-            </ul>
-        </div>
+
+                    <div style="padding-right:20px; padding-bottom:20px; bottom:0; right:0">
+                                                        <a ng-href="{{task.externalLink}}" target="_blank">
+                                                        <span style="color:black" class="glyphicon glyphicon-new-window">
+                                                        </span>
+                                                        </a>
+                                                    </div>
+
+
+            </li>
+        </ul>
+    </li>
+</ul>
+
+    <div id="DONE" droppable>
     </div>
-    <!--<div class="table-responsive">-->
-        <!--<table class="jh-table table table-striped">-->
-            <!--<thead>-->
-                <!--<tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">-->
-                    <!--<th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="userId"><span>User Id</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="subject"><span>Subject</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="externalLink"><span>External Link</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="dueBy"><span>Due By</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="externalCreatedAt"><span>External Created At</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th jh-sort-by="customJson"><span>Custom Json</span> <span class="glyphicon glyphicon-sort"></span></th>-->
-                    <!--<th></th>-->
-                <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-                <!--<tr ng-repeat="task in vm.tasks track by task.id">-->
+<!--<div class="table-responsive">-->
+<!--<table class="jh-table table table-striped">-->
+<!--<thead>-->
+<!--<tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">-->
+<!--<th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="userId"><span>User Id</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="subject"><span>Subject</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="externalLink"><span>External Link</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="dueBy"><span>Due By</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="externalCreatedAt"><span>External Created At</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th jh-sort-by="customJson"><span>Custom Json</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+<!--<th></th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr ng-repeat="task in vm.tasks track by task.id">-->
 
 
-
-                    <!--<td><a ui-sref="task-kill-fomo-entities-detail({id:task.id})">{{task.id}}</a></td>-->
-                    <!--<td>{{task.userId}}</td>-->
-                    <!--<td>{{task.subject}}</td>-->
-                    <!--<td>{{task.externalLink}}</td>-->
-                    <!--<td>{{task.type}}</td>-->
-                    <!--<td>{{task.dueBy | date:'medium'}}</td>-->
-                    <!--<td>{{task.externalCreatedAt | date:'medium'}}</td>-->
-                    <!--<td>{{task.customJson}}</td>-->
-                    <!--<td class="text-right">-->
-                        <!--<div class="btn-group flex-btn-group-container">-->
-                            <!--<button type="submit"-->
-                                    <!--ui-sref="task-kill-fomo-entities-detail({id:task.id})"-->
-                                    <!--class="btn btn-info btn-sm">-->
-                                <!--<span class="glyphicon glyphicon-eye-open"></span>-->
-                                <!--<span class="hidden-sm-down"></span>-->
-                            <!--</button>-->
-                            <!--<button type="submit"-->
-                                    <!--ui-sref="task-kill-fomo-entities.edit({id:task.id})"-->
-                                    <!--class="btn btn-primary btn-sm">-->
-                                <!--<span class="glyphicon glyphicon-pencil"></span>-->
-                                <!--<span class="hidden-sm-down"></span>-->
-                            <!--</button>-->
-                            <!--<button type="submit"-->
-                                    <!--ui-sref="task-kill-fomo-entities.delete({id:task.id})"-->
-                                    <!--class="btn btn-danger btn-sm">-->
-                                <!--<span class="glyphicon glyphicon-remove-circle"></span>-->
-                                <!--<span class="hidden-sm-down"></span>-->
-                            <!--</button>-->
-                        <!--</div>-->
-                    <!--</td>-->
-                <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-    <!--</div>-->
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-    </div>
-</div>
+<!--<td><a ui-sref="task-kill-fomo-entities-detail({id:task.id})">{{task.id}}</a></td>-->
+<!--<td>{{task.userId}}</td>-->
+<!--<td>{{task.subject}}</td>-->
+<!--<td>{{task.externalLink}}</td>-->
+<!--<td>{{task.type}}</td>-->
+<!--<td>{{task.dueBy | date:'medium'}}</td>-->
+<!--<td>{{task.externalCreatedAt | date:'medium'}}</td>-->
+<!--<td>{{task.customJson}}</td>-->
+<!--<td class="text-right">-->
+<!--<div class="btn-group flex-btn-group-container">-->
+<!--<button type="submit"-->
+<!--ui-sref="task-kill-fomo-entities-detail({id:task.id})"-->
+<!--class="btn btn-info btn-sm">-->
+<!--<span class="glyphicon glyphicon-eye-open"></span>-->
+<!--<span class="hidden-sm-down"></span>-->
+<!--</button>-->
+<!--<button type="submit"-->
+<!--ui-sref="task-kill-fomo-entities.edit({id:task.id})"-->
+<!--class="btn btn-primary btn-sm">-->
+<!--<span class="glyphicon glyphicon-pencil"></span>-->
+<!--<span class="hidden-sm-down"></span>-->
+<!--</button>-->
+<!--<button type="submit"-->
+<!--ui-sref="task-kill-fomo-entities.delete({id:task.id})"-->
+<!--class="btn btn-danger btn-sm">-->
+<!--<span class="glyphicon glyphicon-remove-circle"></span>-->
+<!--<span class="hidden-sm-down"></span>-->
+<!--</button>-->
+<!--</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--<div class="text-center">-->
+<!--<jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>-->
+<!--<uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"-->
+<!--ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>-->
+<!--</div>-->
