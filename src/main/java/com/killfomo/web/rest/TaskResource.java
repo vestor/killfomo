@@ -1,14 +1,17 @@
 package com.killfomo.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.killfomo.service.TaskService;
+import com.killfomo.service.dto.TaskDTO;
+import com.killfomo.service.mapper.KillfomoJsonMapper;
 import com.killfomo.web.rest.errors.BadRequestAlertException;
 import com.killfomo.web.rest.util.HeaderUtil;
 import com.killfomo.web.rest.util.PaginationUtil;
-import com.killfomo.service.dto.TaskDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -17,11 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Task.
@@ -29,6 +34,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class TaskResource {
+
+    @Autowired
+    KillfomoJsonMapper killfomoJsonMapper;
 
     private final Logger log = LoggerFactory.getLogger(TaskResource.class);
 
@@ -71,7 +79,9 @@ public class TaskResource {
      */
     @PutMapping("/tasks")
     @Timed
-    public ResponseEntity<TaskDTO> updateTask(@Valid @RequestBody TaskDTO taskDTO) throws URISyntaxException {
+    public ResponseEntity<TaskDTO> updateTask(@RequestBody Map taskMap) throws URISyntaxException, JsonProcessingException {
+        taskMap.put("customJson", killfomoJsonMapper.writeValueAsString(taskMap.get("customJson")));
+        TaskDTO taskDTO = killfomoJsonMapper.convertValue(taskMap, TaskDTO.class);
         log.debug("REST request to update Task : {}", taskDTO);
         if (taskDTO.getId() == null) {
             return createTask(taskDTO);
@@ -93,8 +103,17 @@ public class TaskResource {
     public ResponseEntity<List<TaskDTO>> getAllTasks(Pageable pageable) {
         log.debug("REST request to get a page of Tasks");
         Page<TaskDTO> page = taskService.findAll(pageable);
+        List objectsToSend = page.getContent().stream().map( a -> {
+            Map object = killfomoJsonMapper.convertValue(a, Map.class);
+            try {
+                object.put("customJson", killfomoJsonMapper.readValue(a.getCustomJson(), Map.class));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return object;
+        }).collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tasks");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(objectsToSend, headers, HttpStatus.OK);
     }
 
     /**

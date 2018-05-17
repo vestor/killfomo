@@ -1,5 +1,6 @@
 package com.killfomo.domain;
 
+import com.killfomo.domain.enumeration.TaskState;
 import com.killfomo.domain.enumeration.TaskType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -51,6 +52,21 @@ public class Task implements Serializable {
     @Lob
     @Column(name = "custom_json")
     private String customJson;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state")
+    private TaskState state;
+
+
+
+    public TaskState getState() {
+        return state;
+    }
+
+    public void setState(TaskState state) {
+        this.state = state;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -181,6 +197,8 @@ public class Task implements Serializable {
             ", dueBy='" + getDueBy() + "'" +
             ", externalCreatedAt='" + getExternalCreatedAt() + "'" +
             ", customJson='" + getCustomJson() + "'" +
+            ", state='" + getState() + "'" +
+
             "}";
     }
 }

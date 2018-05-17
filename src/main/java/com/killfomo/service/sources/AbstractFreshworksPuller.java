@@ -3,6 +3,7 @@ package com.killfomo.service.sources;
 import com.killfomo.domain.AuthResource;
 import com.killfomo.domain.Task;
 import com.killfomo.domain.User;
+import com.killfomo.domain.enumeration.TaskState;
 import com.killfomo.domain.enumeration.TaskType;
 import com.killfomo.repository.AuthResourceRepository;
 import com.killfomo.repository.TaskRepository;
@@ -96,15 +97,24 @@ public abstract class AbstractFreshworksPuller {
         for(Object mytask : mytasks) {
 
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
+            String id = userId + "-" + getType() + "-" + myTaskMap.get("id");
             if(checkFilter(myTaskMap)) {
                 Task task = new Task();
-                task.setId(userId + "-" + getType() + "-" + myTaskMap.get("id"));
+                task.setId(id);
+                Task one = taskRepository.findOne(id);
+                if(one != null) {
+                    task.setState(one.getState());
+                } else {
+                    task.setState(TaskState.TODO);
+                }
                 task.setUserId(userId);
                 task.setCustomJson(killfomoJsonMapper.writeValueAsString(mytask));
                 task.setType(getType());
 
                 map(domain, formatter, myTaskMap, task);
                 tasksToReturn.add(task);
+            } else {
+                taskRepository.delete(id);
             }
         }
         taskRepository.save(tasksToReturn);

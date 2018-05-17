@@ -4,6 +4,135 @@ body {
     color: #333;
 }
 
+
+.backface-visibility-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+.tile {
+    color: white;
+    padding: 15px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+flipper {
+    float: left;
+    width: 250px;
+    height: 250px;
+    margin-right: 15px;
+    display: block;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -ms-perspective: 1000px;
+}
+flipper span {
+    color: white;
+}
+flipper > div.flipper {
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+}
+flipper > div.flipper .front,
+flipper > div.flipper .back {
+    float: left;
+    display: block;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform ease 500ms;
+    -moz-transition: -webkit-transform ease 500ms;
+    -ms-transition: -webkit-transform ease 500ms;
+    -o-transition: -webkit-transform ease 500ms;
+    transition: -webkit-transform ease 500ms;
+    -webkit-transition: transform ease 500ms;
+    -moz-transition: transform ease 500ms;
+    -ms-transition: transform ease 500ms;
+    -o-transition: transform ease 500ms;
+    transition: transform ease 500ms;
+}
+flipper > div.flipper .front {
+    z-index: 2;
+    background: #19489E;
+    /* front tile styles go here! */
+}
+flipper > div.flipper .back {
+    background: #9E1919;
+    /* back tile styles go here! */
+}
+flipper[horizontal] .front {
+    transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+}
+flipper[horizontal] .back {
+    transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    -webkit-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+}
+flipper[horizontal] div.flipper.flipped .front {
+    transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+}
+flipper[horizontal] div.flipper.flipped .back {
+    transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+}
+flipper[vertical] .front {
+    transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -webkit-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+}
+flipper[vertical] .back {
+    transform: rotateX(-180deg);
+    -ms-transform: rotateX(-180deg);
+    -webkit-transform: rotateX(-180deg);
+    -o-transform: rotateX(-180deg);
+    -moz-transform: rotateX(-180deg);
+}
+flipper[vertical] div.flipper.flipped .front {
+    transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -webkit-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+}
+flipper[vertical] div.flipper.flipped .back {
+    transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -webkit-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+}
+
+
+
 /* ==========================================================================
 Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 ========================================================================== */
@@ -338,5 +467,208 @@ ui bootstrap tweaks
 
 
 
+
+.list header {
+    text-align:center;
+    margin-bottom:30px !important;
+}
+
+
+.divider {
+    border-top-width: 10px !important;
+    border-top-color: black !important;
+    width: 74% !important;
+    float: left !important;
+    position: absolute !important;
+    margin-top: 45px !important;
+    z-index: 3 !important;
+}
+
+
+
+
+.link-div {
+    position: absolute !important;
+    margin-top: 500px !important;
+    margin-left: 10px !important;
+}
+
+
+
+/* Begin code for Kanban */
+
+.kanban-container-1 {width: 20%; float:left;clear: right;margin:10px; border-radius: 5px;
+    border-right-width: 9px !important;
+    border-right-color: black !important;
+    border-right-style: solid;
+    position: initial;
+    height: 600px;
+    padding-right: 40px;
+    position: absolute !important;
+    width: 370px !important;
+
+
+}
+
+
+
+
+.kanban-container-1 ul {
+    width: 350px;
+}
+
+.kanban-container-1 ul li {
+
+    height: 250px !important;
+}
+
+
+.kanban-container-1 .list {
+
+    width: 315px;
+
+}
+
+.kanban-container-1 ul li .card {
+    width: 250px !important;
+    height: 195px !important;
+}
+
+
+
+.kanban-container-2 {width: 20%; float:left;clear: right;margin:10px; border-radius: 5px;
+    border-right-width: 9px !important;
+    border-right-color: black !important;
+    border-right-style: solid;
+    position: initial;
+    height: 600px;
+    padding-right: 40px;
+    position: absolute !important;
+    left: 400px !important;
+    width: 600px !important;
+
+}
+
+.kanban-container-2 .list {
+
+    width: 550px !important;
+
+}
+
+.kanban-container-2 ul {
+
+    width:525px !important;
+
+}
+
+.kanban-container-2 li {
+
+    width: 500px !important;
+    height: 350px !important;
+}
+
+
+.kanban-container-2 ul li .card {
+    width: 500px !important;
+    height: 350px !important;
+}
+
+
+
+
+/* Begin card styling */
+
+.card-subject {
+    position: absolute;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.card-source
+{
+    width: 30px;
+    right: 5%;
+    position: absolute;
+    bottom: 2%;
+    width: 25px !important;
+}
+
+.card-flip{
+    position: absolute;
+    bottom: 5%;
+}
+
+.ui {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 40px 50px 1fr;
+    background-color: #0079bf;
+    color: #eee;
+}
+
+
+.lists {
+    display: flex;
+    overflow-x: auto;
+}
+.lists > * {
+    flex: 0 0 auto;
+    margin-left: 10px;
+}
+.lists::after {
+    content: '';
+    flex: 0 0 10px;
+}
+
+.list {
+    width: 300px;
+    height: calc(100% - 10px - 17px);
+}
+.list > * {
+    background-color: white;
+    color: #333;
+    padding: 0 10px;
+}
+.list header {
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.list footer {
+    line-height: 36px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #888;
+}
+.list ul {
+    list-style: none;
+    margin: 0;
+    max-height: calc(100% - 36px - 36px);
+    overflow-y: auto;
+
+}
+
+.list ul li {
+    background-color: #fff;
+    /*  background-image: linear-gradient(-1deg, rgba(255,255,115,0.84) 0%, rgba(216,214,20,0.84) 72%); */
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.list ul li:not(:last-child) {
+    margin-bottom: 10px;
+}
+.list ul li img {
+    display: block;
+    width: calc(100% + 2 * 10px);
+    margin: -10px 0 10px -10px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
 
 /* jhipster-needle-css-add-main JHipster will add new css style */

@@ -40,6 +40,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="state" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="due_by" type="timestamp">
                 <constraints nullable="true" />
             </column>

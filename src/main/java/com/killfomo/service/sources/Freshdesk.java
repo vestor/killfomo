@@ -34,13 +34,14 @@ public class Freshdesk extends AbstractFreshworksPuller{
 
     @Override
     boolean checkFilter(Map mytask) {
-        return Integer.parseInt((String)mytask.get("status")) != 5;
+        return (Integer)mytask.get("status") != 5;
     }
 
     @Override
     void map(String domain, DateTimeFormatter formatter, Map<String, Object> myTaskMap, Task task) {
         task.setExternalCreatedAt(Instant.parse(myTaskMap.get("created_at").toString()));
         task.setDueBy(Instant.parse(myTaskMap.get("due_by").toString()));
+        task.setSubject((String) myTaskMap.get("subject"));
         task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/a/tickets/" + myTaskMap.get("ticket_id"));
     }
 

@@ -1,5 +1,6 @@
 package com.killfomo;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.killfomo.config.ApplicationProperties;
 import com.killfomo.config.DefaultProfileUtil;
@@ -102,6 +103,7 @@ public class KillfomoApp {
 
         JavaTimeModule module = new JavaTimeModule();
         objectMapper.registerModule(module);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         return objectMapper;
     }
 

@@ -1,6 +1,7 @@
 package com.killfomo.service.sources;
 
 import com.killfomo.domain.Task;
+import com.killfomo.domain.enumeration.TaskState;
 import com.killfomo.domain.enumeration.TaskType;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -110,11 +111,17 @@ public class Jira extends AbstractFreshworksPuller{
             Map<String, Object> myTaskMap = (((Map<String,Object>)mytask));
             if(checkFilter(myTaskMap)) {
                 Task task = new Task();
-                task.setId(userId + "-" + getType() + "-" + myTaskMap.get("id"));
+                String id = userId + "-" + getType() + "-" + myTaskMap.get("id");
+                task.setId(id);
                 task.setUserId(userId);
+                Task one = taskRepository.findOne(id);
+                if(one != null) {
+                    task.setState(one.getState());
+                } else {
+                    task.setState(TaskState.TODO);
+                }
                 task.setCustomJson(killfomoJsonMapper.writeValueAsString(mytask));
                 task.setType(getType());
-
                 map(domain, formatter, myTaskMap, task);
                 tasksToReturn.add(task);
             }

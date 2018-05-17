@@ -1,0 +1,150 @@
+<div>
+    <h2>Tasks</h2>
+
+    <hr class = 'divider'/>
+
+    <div class = 'kanban-container-1'>
+        <div class="list" style="background-color:white;">
+            <header>Backlog</header>
+            <ul id="TODO" ng-repeat="task in vm.parts.TODO  track by task.id " droppable>
+                <li id="{{task.id}}" draggable >
+                    <flipper flipped="flipped" horizontal class="card" style="width: 18rem;" >
+                        <front>
+                            <div class="card-body">
+                                <h5 class="card-title">{{task.type}}</h5>
+                                <h6 class="card-subtitle mb-2 card-id">{{task.subject}}</h6>
+                                <a href="#" class="card-link card-flip">Flip</a>
+                                <img class="card-link card-source" ng-src="{{task.type}}.png">
+                            </div>
+                        </front>
+                        <back>
+                            <back ng-switch="task.type">
+                                <div ng-switch-when="FRESHSALES" class="card-body">
+                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">$1000</h6>
+                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">{{task.customJson.target.name}}</h6>
+                                    <h6 ng-if="task.customJson.targetable.type == 'contact' || task.customJson.targetable.type == 'lead'">{{task.customJson.target.display_name}}</h6>
+                                    <h6>{{task.customJson.description | limitTo:40}}...</h6>
+                                </div>
+                                <div ng-switch-when="FRESHSERVICE" class="card-body">
+                                    <h6>{{task.customJson.description | limitTo:40}}...</h6>
+                                </div>
+                                <div ng-switch-when="TRELLO" class="card-body">
+                                    <h6>{{task.customJson.desc}}</h6>
+                                </div>
+                                <div ng-switch-when="JIRA" class="card-body">
+                                    <h6>{{task.customJson.fields.description  | limitTo:40}}...</h6>
+                                    <h6>{{task.customJson.fields.project.name}}</h6>
+                                    <h6>{{task.customJson.fields.priority.name}}</h6>
+                                </div>
+                                <div ng-switch-when="FRESHDESK" class="card-body">
+                                    <h4 ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">{{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
+                                    <h6>{{task.customJson.description_text | limitTo:40 }}...</h6>
+                                    <h6>{{task.customJson.priority | fdpriority}}</h6>
+                                </div>
+                            </back>
+                        </back>
+                    </flipper>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class = 'kanban-container-2'>
+        <div class="list" style="background-color:white;">
+            <header>Work in Progress</header>
+            <ul id="WIP" ng-repeat="task in vm.parts.WIP track by task.id " droppable >
+                <li id="{{task.id}}" draggable >
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{task.type}}</h5>
+                            <h6 class="card-subtitle mb-2 card-id">{{task.subject}}</h6>
+                            <a href="#" class="card-link card-flip">Flip</a>
+                            <img class="card-link card-source" ng-src="{{task.type}}.png">
+                            <div ng-switch="task.type">
+                                <div ng-switch-when="FRESHSALES" class="card-body">
+                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">$1000</h6>
+                                    <h6 ng-if="task.customJson.targetable.type == 'deal'">{{task.customJson.target.name}}</h6>
+                                    <h6 ng-if="task.customJson.targetable.type == 'contact' || task.customJson.targetable.type == 'lead'">{{task.customJson.target.display_name}}</h6>
+                                    <h6>{{task.customJson.description | limitTo:240}}...</h6>
+                                </div>
+                                <div ng-switch-when="FRESHSERVICE" class="card-body">
+                                    <h6>{{task.customJson.description | limitTo:240}}...</h6>
+                                </div>
+                                <div ng-switch-when="TRELLO" class="card-body">
+                                    <h6>{{task.customJson.desc}}</h6>
+                                </div>
+                                <div ng-switch-when="JIRA" class="card-body">
+                                    <h6>{{task.customJson.fields.description  | limitTo:240}}...</h6>
+                                    <h6>{{task.customJson.fields.project.name}}</h6>
+                                    <h6>{{task.customJson.fields.priority.name}}</h6>
+                                </div>
+                                <div ng-switch-when="FRESHDESK" class="card-body">
+                                    <h4 ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">{{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
+                                    <h6>{{task.customJson.description_text | limitTo:240 }}...</h6>
+                                    <h6>{{task.customJson.priority | fdpriority}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--<div class="table-responsive">-->
+        <!--<table class="jh-table table table-striped">-->
+            <!--<thead>-->
+                <!--<tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">-->
+                    <!--<th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="userId"><span>User Id</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="subject"><span>Subject</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="externalLink"><span>External Link</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="dueBy"><span>Due By</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="externalCreatedAt"><span>External Created At</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="customJson"><span>Custom Json</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th></th>-->
+                <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+                <!--<tr ng-repeat="task in vm.tasks track by task.id">-->
+
+
+
+                    <!--<td><a ui-sref="task-kill-fomo-entities-detail({id:task.id})">{{task.id}}</a></td>-->
+                    <!--<td>{{task.userId}}</td>-->
+                    <!--<td>{{task.subject}}</td>-->
+                    <!--<td>{{task.externalLink}}</td>-->
+                    <!--<td>{{task.type}}</td>-->
+                    <!--<td>{{task.dueBy | date:'medium'}}</td>-->
+                    <!--<td>{{task.externalCreatedAt | date:'medium'}}</td>-->
+                    <!--<td>{{task.customJson}}</td>-->
+                    <!--<td class="text-right">-->
+                        <!--<div class="btn-group flex-btn-group-container">-->
+                            <!--<button type="submit"-->
+                                    <!--ui-sref="task-kill-fomo-entities-detail({id:task.id})"-->
+                                    <!--class="btn btn-info btn-sm">-->
+                                <!--<span class="glyphicon glyphicon-eye-open"></span>-->
+                                <!--<span class="hidden-sm-down"></span>-->
+                            <!--</button>-->
+                            <!--<button type="submit"-->
+                                    <!--ui-sref="task-kill-fomo-entities.edit({id:task.id})"-->
+                                    <!--class="btn btn-primary btn-sm">-->
+                                <!--<span class="glyphicon glyphicon-pencil"></span>-->
+                                <!--<span class="hidden-sm-down"></span>-->
+                            <!--</button>-->
+                            <!--<button type="submit"-->
+                                    <!--ui-sref="task-kill-fomo-entities.delete({id:task.id})"-->
+                                    <!--class="btn btn-danger btn-sm">-->
+                                <!--<span class="glyphicon glyphicon-remove-circle"></span>-->
+                                <!--<span class="hidden-sm-down"></span>-->
+                            <!--</button>-->
+                        <!--</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+    <!--</div>-->
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

@@ -18,9 +18,10 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/task-kill-fomo-entities/taskskillFomoEntities.html',
+                    templateUrl: 'app/entities/task-kill-fomo-entities/taskskillFomoEntities2.html',
                     controller: 'TaskKillFomoEntitiesController',
-                    controllerAs: 'vm'
+                    controllerAs: 'vm',
+                    styleUrls: ['./style.css']
                 }
             },
             params: {
@@ -120,6 +121,7 @@
                                 externalLink: null,
                                 type: null,
                                 dueBy: null,
+                                state: null,
                                 externalCreatedAt: null,
                                 customJson: null,
                                 id: null

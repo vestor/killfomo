@@ -24,7 +24,7 @@ public class Freshsales extends AbstractFreshworksPuller{
 
     @Override
     String getUrl(String domain, String apiKey) {
-        return BASE_URL.replace("{domain}", domain)  + "/api/tasks?filter=open";
+        return BASE_URL.replace("{domain}", domain)  + "/api/tasks?include=targetable";
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Freshsales extends AbstractFreshworksPuller{
 
     @Override
     boolean checkFilter(Map mytask) {
-        return true;
+        return mytask.get("status").toString().equalsIgnoreCase("0");
     }
 
     @Override
@@ -50,7 +50,32 @@ public class Freshsales extends AbstractFreshworksPuller{
 
     @Override
     protected List parse(ResponseEntity<String> rawResponse) throws IOException {
-        return (List)killfomoJsonMapper.readValue(rawResponse.getBody(), Map.class).get("tasks");
+        Map rawMap = killfomoJsonMapper.readValue(rawResponse.getBody(), Map.class);
+        List origData = (List)rawMap.get("tasks");
+        List contactData = (List)rawMap.get("contacts");
+        List dealsData = (List)rawMap.get("deals");
+        List leadsData = (List)rawMap.get("leads");
+
+        for(Map task : (List<Map>)origData) {
+            Map targetable = (Map) task.get("targetable");
+            if(targetable !=null) {
+                String type = (String) targetable.get("type");
+                if(type.equalsIgnoreCase("deal")) {
+                    task.put("target", dealsData.stream().filter(a -> getEquality(targetable, (Map) a)).findFirst().get());
+                } else if ( type.equalsIgnoreCase("contact")) {
+                    task.put("target", contactData.stream().filter(a -> getEquality(targetable, (Map) a)).findFirst().get());
+                } else if (type.equalsIgnoreCase("lead") ) {
+                    task.put("target", leadsData.stream().filter(a ->getEquality(targetable, (Map) a)).findFirst().get());
+                }
+            }
+        }
+
+        return origData;
+
+    }
+
+    private boolean getEquality(Map targetable, Map a) {
+        return a.get("id").toString().equalsIgnoreCase(targetable.get("id").toString());
     }
 
 

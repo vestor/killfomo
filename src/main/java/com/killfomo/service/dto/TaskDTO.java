@@ -1,6 +1,7 @@
 package com.killfomo.service.dto;
 
 
+import com.killfomo.domain.enumeration.TaskState;
 import com.killfomo.domain.enumeration.TaskType;
 
 import javax.persistence.Lob;
@@ -36,6 +37,16 @@ public class TaskDTO implements Serializable {
 
     @Lob
     private String customJson;
+
+    private TaskState state;
+
+    public TaskState getState() {
+        return state;
+    }
+
+    public void setState(TaskState state) {
+        this.state = state;
+    }
 
     public String getId() {
         return id;
@@ -133,6 +144,7 @@ public class TaskDTO implements Serializable {
             ", dueBy='" + getDueBy() + "'" +
             ", externalCreatedAt='" + getExternalCreatedAt() + "'" +
             ", customJson='" + getCustomJson() + "'" +
+            ", state='" + getState() + "'" +
             "}";
     }
 }
