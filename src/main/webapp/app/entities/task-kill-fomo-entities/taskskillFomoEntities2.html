@@ -95,9 +95,9 @@
         </ul>
     </li>
     <li style="width: 5px; background: black; margin-left: 30px"></li>
-    <li>
-        <ul class="secondlist" id="WIP" ng-repeat="task in vm.parts.WIP track by task.id " droppable>
-            <li id="{{task.id}}" draggable>
+    <li id="WIP" style="min-width:200px" droppable>
+        <ul id="WIP"  class="secondlist"  ng-repeat="task in vm.parts.WIP track by task.id " droppable>
+            <li id="{{task.id}}" draggable style="position:relative">
 
                     <div class="card-body">
                         <img class="card-link card-source" style="height: 45px; padding-top:10px" ng-src="{{task.type}}.png">
@@ -135,7 +135,7 @@
                         </div>
                     </div>
 
-                    <div style="padding-right:20px; padding-bottom:20px; bottom:0; right:0">
+                    <div style="padding-right:20px; position:absolute; padding-bottom:20px; bottom:0; right:0">
                                                         <a ng-href="{{task.externalLink}}" target="_blank">
                                                         <span style="color:black" class="glyphicon glyphicon-new-window">
                                                         </span>
@@ -150,6 +150,15 @@
 
     <div id="DONE" droppable>
     </div>
+<div ng-show="showModal()" id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" ng-style="modalStyle.style">
+        <span class="close" ng-click="hideModal()">&times;</span>
+        <p>{{message}}</p>
+    </div>
+
+</div>
 <!--<div class="table-responsive">-->
 <!--<table class="jh-table table table-striped">-->
 <!--<thead>-->

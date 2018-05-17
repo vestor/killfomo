@@ -21,6 +21,18 @@
 
         loadAll();
 
+        $scope.modalStyle = {};
+
+        $scope.show = false;
+        $scope.message= "";
+        $scope.showModal = function() {
+           return $scope.show;
+        };
+
+        $scope.hideModal = function() {
+            $scope.show = false;
+        };
+
         $scope.MoveItem = function(origin, dest, item_id) {
             // Check if dropped in origin
             if (origin == dest) return;
@@ -36,6 +48,26 @@
                     item[0].state = dest;
                     vm.isSaving = true;
                     Task.update(item[0], onSaveSuccess, onSaveError);
+
+                    console.log(dest == 'DONE');
+                    if(dest == 'DONE') {
+                        $scope.show = true;
+                        $scope.modalStyle.style={"background-color":'#98d596'};
+                        $scope.message= 'Woohoo! Done and dusted! Go have some cofffeeee!- Your Warp buds';
+
+                    }
+
+                    if(origin == 'WIP' && dest == 'TODO') {
+                        $scope.show = true;
+                        $scope.modalStyle.style={"background-color":'#FACAC0'};
+                        $scope.message = 'Looking back isn\'t going to help you. Moving forward is the thing you have to do" - McKayla Maroney ';
+                    }
+
+                    if(origin == 'TODO' && dest == 'WIP' && vm.parts[dest].length > 2) {
+                        $scope.show = true;
+                        $scope.modalStyle.style={"background-color":'#FACAC0'};
+                        $scope.message = 'Multitasking is a myth. We want you to focus" - Your Warp buds';
+                    }
                     // End loop
                     break;
                 }
