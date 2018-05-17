@@ -44,7 +44,7 @@
                     // Splice the item from the origin array
                     var item = vm.parts[origin].splice(i, 1);
                     // Push to the destination array
-                    vm.parts[dest].push(item[0]);
+                    vm.parts[dest].unshift(item[0]);
                     item[0].state = dest;
                     vm.isSaving = true;
                     Task.update(item[0], onSaveSuccess, onSaveError);
