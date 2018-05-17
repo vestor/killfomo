@@ -1,7 +1,8 @@
 <ul>
-    <li style="display:inline-block; width:350px; padding-left: 75px"><h3>Backlog</h3></li>
+    <li style="display:inline-block; width:350px; padding-left: 75px"><h3>To Do</h3></li>
     <li style="display:inline-block;  width:550px; padding-left: 175px"><h3>In Progress</h3></li>
 </ul>
+<hr style="background: black; height:8px;">
 <ul class="mainlist">
 
     <li>
@@ -10,6 +11,7 @@
                 <flipper flipped="flipped" horizontal class="card" >
                     <front>
                         <div class="card-body">
+                            <img ng-if="task.type=='FRESHDESK' && task.customJson.priority == 4" src="REDDOT.png" style="height:30px;position:absolute;right:0;top:0;padding-right:15px;padding-top:15px">
                             <img class="card-link card-source" style="height: 20px" ng-src="{{task.type}}.png">
                             <!--<h6 class="card-title" style="vertical-align:center; float:right;">{{task.type}}</h6>-->
                             <h5 style="/* padding-left:30px; */font-size: 20px;" class="center-text mb-2 card-id">{{task.subject | limitTo:50}}</h5>
@@ -99,7 +101,9 @@
         <ul id="WIP"  class="secondlist"  ng-repeat="task in vm.parts.WIP track by task.id " droppable>
             <li id="{{task.id}}" draggable style="position:relative">
 
+                    
                     <div class="card-body">
+                        <img ng-if="task.type=='FRESHDESK' && task.customJson.priority == 4" src="REDDOT.png" style="height:30px;position:absolute;right:0;top:0;padding-right:15px;padding-top:15px">
                         <img class="card-link card-source" style="height: 45px; padding-top:10px" ng-src="{{task.type}}.png">
                         <h6 class="center-text" style="font-size: 35px;">{{task.subject | limitTo:50}}</h6>
 
@@ -116,7 +120,7 @@
                                 <h6 style="padding-top:40px;text-align:center; font-size:25px; position: relative">{{task.customJson.description | limitTo:240}}...</h6>
                             </div>
                             <div ng-switch-when="TRELLO" class="card-body">
-                                <h6>{{task.customJson.desc}}</h6>
+                                <h6 style="padding-top:20px;font-size: 15px">{{task.customJson.desc}}</h6>
                             </div>
                             <div ng-switch-when="JIRA" class="card-body">
 
@@ -126,7 +130,7 @@
                                 <h6 style="padding-top:20px;font-size: 15px">{{task.customJson.fields.description | limitTo:800}}...</h6>
                             </div>
                             <div ng-switch-when="FRESHDESK" class="card-body">
-                                <div style="padding-top:20px;font-size:20px;"><strong>{{task.customJson.priority | fdpriority}}<strong></div>
+                                <div style="padding-top:20px;font-size:20px;"><strong>{{task.customJson.priority | fdpriority}}</strong></div>
                                 <h4 style="top:0;right:0; padding-right:20px; padding-top:10px; font-size: 20px"ng-if="task.customJson.fr_due_by | dueFilter | greaterThanZero">
                                     {{task.customJson.fr_due_by | dueFilter | millSecondsToTimeString}}</h4>
                                 <h6 style="padding-top:20px;font-size: 15px">{{task.customJson.description_text | limitTo:800 }}...</h6>

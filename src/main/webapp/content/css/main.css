@@ -741,6 +741,17 @@ ul.secondlist li {
     padding: 10px 15px;
 }
 
+.urgent {
+    width: 550px;
+    height: 450px;
+    margin-bottom: 15px;
+    background-color: #f7bdb3;
+    border: 2px solid #88393b;
+    border-radius: 8px;
+    display: block;
+    padding: 10px 15px;
+}
+
 .center-text {
     text-align:center;
     padding-top:35px;
@@ -807,9 +818,9 @@ ul.secondlist li {
     width: 100%;
     text-align: center;
     font: normal 18px sans-serif;
-
+    z-index: 999;
     padding: 45px;
-    margin-top: 80px;
+    margin-top: 10px;
 }
 
 .footer-basic-centered .footer-company-motto{

@@ -43,7 +43,7 @@ public class Freshdesk extends AbstractFreshworksPuller{
         task.setExternalCreatedAt(Instant.parse(myTaskMap.get("created_at").toString()));
         task.setDueBy(Instant.parse(myTaskMap.get("due_by").toString()));
         task.setSubject((String) myTaskMap.get("subject"));
-        task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/a/tickets/" + myTaskMap.get("ticket_id"));
+        task.setExternalLink(BASE_URL.replace("{domain}", domain) + "/a/tickets/" + myTaskMap.get("id"));
     }
 
     @Override
