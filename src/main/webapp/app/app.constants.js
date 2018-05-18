@@ -5,6 +5,6 @@
         .module('killfomoApp')
         .constant('VERSION', "0.0.1-SNAPSHOT")
         .constant('DEBUG_INFO_ENABLED', false)
-        .constant('BUILD_TIMESTAMP', 1526598969730)
+        .constant('BUILD_TIMESTAMP', 1526629064069)
 ;
 })();

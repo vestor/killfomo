@@ -60,13 +60,13 @@
                     if(origin == 'WIP' && dest == 'TODO') {
                         $scope.show = true;
                         $scope.modalStyle.style={"background-color":'#FACAC0'};
-                        $scope.message = 'Looking back isn\'t going to help you. Moving forward is the thing you have to do" - McKayla Maroney ';
+                        $scope.message = '"Looking back isn\'t going to help you. Moving forward is the thing you have to do" - McKayla Maroney ';
                     }
 
                     if(origin == 'TODO' && dest == 'WIP' && vm.parts[dest].length > 2) {
                         $scope.show = true;
                         $scope.modalStyle.style={"background-color":'#FACAC0'};
-                        $scope.message = 'Multitasking is a myth. We want you to focus" - Your Warp buds';
+                        $scope.message = '"Multitasking is a myth. We want you to focus" - Your Warp buds';
                     }
                     // End loop
                     break;

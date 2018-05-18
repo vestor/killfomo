@@ -104,7 +104,7 @@ public abstract class AbstractFreshworksPuller {
                 task.setId(id);
                 idsToRetain.add(id);
                 Task one = taskRepository.findOne(id);
-                if(one != null) {
+                if(one != null && one.getState() == TaskState.WIP) {
                     task.setState(one.getState());
                 } else {
                     task.setState(TaskState.TODO);
