@@ -11,8 +11,8 @@
                 <flipper flipped="flipped" horizontal class="card" >
                     <front>
                         <div class="card-body">
-                            <img ng-if="task.type=='FRESHDESK' && task.customJson.priority == 4" src="REDDOT.png" style="height:30px;position:absolute;right:0;top:0;padding-right:15px;padding-top:15px">
-                            <img class="card-link card-source" style="height: 20px" ng-src="{{task.type}}.png">
+                            <img ng-if="task.type=='FRESHDESK' && task.customJson.priority == 4" src="/content/images/REDDOT.png" style="height:30px;position:absolute;right:0;top:0;padding-right:15px;padding-top:15px">
+                            <img class="card-link card-source" style="height: 20px" ng-src="/content/images/{{task.type}}.png">
                             <!--<h6 class="card-title" style="vertical-align:center; float:right;">{{task.type}}</h6>-->
                             <h5 style="/* padding-left:30px; */font-size: 20px;" class="center-text mb-2 card-id">{{task.subject | limitTo:50}}</h5>
                             <div style="padding-bottom:20px; position:absolute; bottom:0;"><span style="color:black" class="glyphicon glyphicon-refresh"></span></div>
@@ -101,10 +101,10 @@
         <ul id="WIP"  class="secondlist"  ng-repeat="task in vm.parts.WIP track by task.id " droppable>
             <li id="{{task.id}}" draggable style="position:relative">
 
-                    
+
                     <div class="card-body">
-                        <img ng-if="task.type=='FRESHDESK' && task.customJson.priority == 4" src="REDDOT.png" style="height:30px;position:absolute;right:0;top:0;padding-right:15px;padding-top:15px">
-                        <img class="card-link card-source" style="height: 45px; padding-top:10px" ng-src="{{task.type}}.png">
+                        <img ng-if="task.type=='FRESHDESK' && task.customJson.priority == 4" src="/content/images/REDDOT.png" style="height:30px;position:absolute;right:0;top:0;padding-right:15px;padding-top:15px">
+                        <img class="card-link card-source" style="height: 45px; padding-top:10px" ng-src="/content/images/{{task.type}}.png">
                         <h6 class="center-text" style="font-size: 35px;">{{task.subject | limitTo:50}}</h6>
 
                         <div ng-switch="task.type">
